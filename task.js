@@ -161,7 +161,7 @@ function main() {
         const cos = Math.cos(radian);
         const sin = Math.sin(radian);
 
-        const modelViewMatrix = translate([0, 0, -3]);
+        const modelViewMatrix = translate([0, -0.5, -3.5]);
         const perspectiveMatrix = perspective(fovY, aspectRatio, 0.1, 10);
 
         const projectionMatrix_Y = [
