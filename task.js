@@ -5,12 +5,12 @@ in vec3 aColor;
 out vec3 vColor;
 in vec3 aPosition;
 uniform mat4 uProjectionMatrix_Y;
-uniform mat4 uProjectionMatrix_Z;
+uniform mat4 uProjectionMatrix_X;
 uniform mat4 uPerspectiveMatrix;
 uniform mat4 uModelViewMatrix;
 
 void main() {
-    gl_Position = uPerspectiveMatrix * (uModelViewMatrix * uProjectionMatrix_Y * uProjectionMatrix_Z * vec4(aPosition, 1.0));
+    gl_Position = uPerspectiveMatrix * (uModelViewMatrix * uProjectionMatrix_Y * uProjectionMatrix_X * vec4(aPosition, 1.0));
     vColor = aColor;
 }`;
 
@@ -61,7 +61,7 @@ function main() {
     const aColor = gl.getAttribLocation(program,'aColor');
     const aPosition = gl.getAttribLocation(program, 'aPosition');
     const uProjectionMatrix_Y = gl.getUniformLocation(program,'uProjectionMatrix_Y');
-    const uProjectionMatrix_Z = gl.getUniformLocation(program,'uProjectionMatrix_Z');
+    const uProjectionMatrix_X = gl.getUniformLocation(program,'uProjectionMatrix_X');
     const uPerspectiveMatrix = gl.getUniformLocation(program,"uPerspectiveMatrix");
     const uModelViewMatrix = gl.getUniformLocation(program, "uModelViewMatrix");
 
@@ -149,6 +149,10 @@ function main() {
     }
 
     let angle = 30;
+    let fixedAngle = 30;
+    const fixedRadian = Math.PI * fixedAngle / 180;
+    const fixedCos = Math.cos(fixedRadian);
+    const fixedSin = Math.sin(fixedRadian);
 
     const draw = () => {
         gl.clearColor(0.5, 0.2, 0.6, 1.0);
@@ -167,15 +171,15 @@ function main() {
             0,0,0,1,
         ];
 
-        const projectionMatrix_Z = new Float32Array([
+        const projectionMatrix_X = new Float32Array([
             1,0,0,0,
-            0,cos,sin,0,
-            0,-sin,cos,0,
+            0,fixedCos,fixedSin,0,
+            0,-fixedSin,fixedCos,0,
             0,0,0,1,
         ]);
         
         gl.uniformMatrix4fv(uProjectionMatrix_Y, false, projectionMatrix_Y);
-        gl.uniformMatrix4fv(uProjectionMatrix_Z, false, projectionMatrix_Z);
+        gl.uniformMatrix4fv(uProjectionMatrix_X, false, projectionMatrix_X);
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
         gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix)
         gl.drawArrays(gl.TRIANGLES, 0, 36);
