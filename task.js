@@ -153,8 +153,6 @@ function main() {
     const draw = () => {
         gl.clearColor(0.5, 0.2, 0.6, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        if (angle === 360.0) angle = 0.0;
-        angle++;
         const radian = Math.PI * angle / 180;
         const cos = Math.cos(radian);
         const sin = Math.sin(radian);
@@ -176,12 +174,28 @@ function main() {
             0,0,0,1,
         ]);
         
-    
         gl.uniformMatrix4fv(uProjectionMatrix_Y, false, projectionMatrix_Y);
         gl.uniformMatrix4fv(uProjectionMatrix_Z, false, projectionMatrix_Z);
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
         gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix)
         gl.drawArrays(gl.TRIANGLES, 0, 36);
     };
+
     draw();
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") {
+            angle -= 10;
+        }
+        if (e.key === "ArrowRight") {
+            angle += 10;
+        }
+        if (e.key === "ArrowUp") {
+            
+        }
+        if (e.key === "ArrowDown") {
+            
+        }
+        draw();
+    });
 }
