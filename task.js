@@ -156,12 +156,6 @@ function main() {
 
     const buffer = gl.createBuffer();
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, lidBufferData, gl.STATIC_DRAW);
-
-    gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
-    gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
-
     gl.enableVertexAttribArray(aPosition);
     gl.enableVertexAttribArray(aColor);
     
@@ -227,7 +221,20 @@ function main() {
         gl.uniformMatrix4fv(uProjectionMatrix_Y, false, projectionMatrix_Y);
         gl.uniformMatrix4fv(uProjectionMatrix_X, false, projectionMatrix_X);
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
-        gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix)
+        gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, lidBufferData, gl.STATIC_DRAW);
+
+        gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
+        gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
+        gl.drawArrays(gl.TRIANGLES, 0, 36);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, crateBufferData, gl.STATIC_DRAW);
+
+        gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
+        gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
         gl.drawArrays(gl.TRIANGLES, 0, 36);
     };
 
