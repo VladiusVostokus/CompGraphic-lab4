@@ -189,6 +189,7 @@ function main() {
     }
 
     let angle = 30;
+    let delta = 0;
     let fixedAngle = 30;
     const fixedRadian = Math.PI * fixedAngle / 180;
     const fixedCos = Math.cos(fixedRadian);
@@ -217,6 +218,17 @@ function main() {
             0,-fixedSin,fixedCos,0,
             0,0,0,1,
         ]);
+
+        const radian2 = Math.PI * (fixedAngle + delta) / 180;
+        const cos2 = Math.cos(radian2);
+        const sin2 = Math.sin(radian2);
+
+        const projectionMatrix_X2 = new Float32Array([
+            1,0,0,0,
+            0,cos2,sin2,0,
+            0,-sin2,cos2,0,
+            0,0,0,1,
+        ]);
         
         gl.uniformMatrix4fv(uProjectionMatrix_Y, false, projectionMatrix_Y);
         gl.uniformMatrix4fv(uProjectionMatrix_X, false, projectionMatrix_X);
@@ -224,14 +236,16 @@ function main() {
         gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, lidBufferData, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, crateBufferData, gl.STATIC_DRAW);
 
         gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
         gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
         gl.drawArrays(gl.TRIANGLES, 0, 36);
 
+        gl.uniformMatrix4fv(uProjectionMatrix_X, false, projectionMatrix_X2);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, crateBufferData, gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, lidBufferData, gl.STATIC_DRAW);
 
         gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
         gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
@@ -248,10 +262,10 @@ function main() {
             angle += 10;
         }
         if (e.key === "ArrowUp") {
-            
+            delta -= 30;
         }
         if (e.key === "ArrowDown") {
-            
+            delta += 30;
         }
         draw();
     });
