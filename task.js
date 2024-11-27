@@ -189,7 +189,8 @@ function main() {
     }
 
     let angle = 30;
-    let delta = 0;
+    let deltaAngle = 0;
+    let deltaX = 0;
     let fixedAngle = 30;
     const fixedRadian = Math.PI * fixedAngle / 180;
     const fixedCos = Math.cos(fixedRadian);
@@ -219,7 +220,7 @@ function main() {
             0,0,0,1,
         ]);
 
-        const radian2 = Math.PI * (fixedAngle + delta) / 180;
+        const radian2 = Math.PI * (fixedAngle + deltaAngle) / 180;
         const cos2 = Math.cos(radian2);
         const sin2 = Math.sin(radian2);
 
@@ -227,7 +228,7 @@ function main() {
             1,0,0,0,
             0,cos2,sin2,0,
             0,-sin2,cos2,0,
-            0,0,0,1,
+            0, deltaX,deltaX,1,
         ]);
         
         gl.uniformMatrix4fv(uProjectionMatrix_Y, false, projectionMatrix_Y);
@@ -262,10 +263,16 @@ function main() {
             angle += 10;
         }
         if (e.key === "ArrowUp") {
-            delta -= 30;
+            if (deltaAngle != -60) {
+                deltaAngle -= 30;
+                deltaX += 0.3;
+            }
         }
         if (e.key === "ArrowDown") {
-            delta += 30;
+            if (deltaAngle != 60) {
+                deltaAngle += 30;
+                deltaX -= 0.3;
+            }
         }
         draw();
     });
