@@ -171,23 +171,23 @@ function main() {
         ];
     };
 
-    const scale = (a, v) => {
+    const scale = (matrix, v) => {
         const x = v[0],
           y = v[1],
           z = v[2];
       
-        a[0] *= x;
-        a[1] *= x;
-        a[2] *= x;
-        a[3] *= x;
-        a[4] *= y;
-        a[5] *= y;
-        a[6] *= y;
-        a[7] *= y;
-        a[8] *= z;
-        a[9] *= z;
-        a[10] *= z;
-        a[11] *= z;
+        matrix[0] *= x;
+        matrix[1] *= x;
+        matrix[2] *= x;
+        matrix[3] *= x;
+        matrix[4] *= y;
+        matrix[5] *= y;
+        matrix[6] *= y;
+        matrix[7] *= y;
+        matrix[8] *= z;
+        matrix[9] *= z;
+        matrix[10] *= z;
+        matrix[11] *= z;
     };
 
     let angle = 30;
