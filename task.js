@@ -204,22 +204,22 @@ function main() {
         const cos = Math.cos(radian);
         const sin = Math.sin(radian);
 
-        const modelViewMatrix = [
+        const modelViewMatrix = new Float32Array([
             1,0,0,0,
             0,1,0,0,
             0,0,1,0,
             0,0,0,1,
-        ]
+        ]);
 
         translate(modelViewMatrix, [0, -0.5, -3.5]);
         const perspectiveMatrix = perspective(fovY, aspectRatio, 0.1, 10);
 
-        const projectionMatrix_Y = [
+        const projectionMatrix_Y = new Float32Array([
             cos,0,-sin,0,
             0,1,0,0,
             sin,0,cos,0,
             0,0,0,1,
-        ];
+        ]);
 
         const projectionMatrix_X = new Float32Array([
             1,0,0,0,
@@ -248,7 +248,6 @@ function main() {
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
         gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
 
-    
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, crateBufferData, gl.STATIC_DRAW);
 
