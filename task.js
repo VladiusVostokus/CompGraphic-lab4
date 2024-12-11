@@ -181,6 +181,13 @@ function main() {
         matrix[14] = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
     };
 
+    const moveOn = (matrix, moveOnVec) => {
+        const x = moveOnVec[0], y = moveOnVec[1],z = moveOnVec[2];
+        matrix[12] = x;
+        matrix[13] = y;
+        matrix[14] = z;
+    };
+
     const multiply = (a, b) => {
         var a00 = a[0 * 4 + 0], a01 = a[0 * 4 + 1], a02 = a[0 * 4 + 2], a03 = a[0 * 4 + 3];
         var a10 = a[1 * 4 + 0], a11 = a[1 * 4 + 1], a12 = a[1 * 4 + 2], a13 = a[1 * 4 + 3];
@@ -277,10 +284,11 @@ function main() {
             1,0,0,0,
             0,cos2,sin2,0,
             0,-sin2,cos2,0,
-            0,0.65, -0.2,1,
+            0,0,0,1,
         ]);
 
-        translate(projectionMatrix_X2, [0, 0, 0.5]);
+        moveOn(projectionMatrix_X2, [0, 0.65, -0.2]);
+        translate(projectionMatrix_X2, [0, 0.05, 0.5]);
         
         gl.uniformMatrix4fv(uTransormMatrix, false, transformMatrix1);
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
