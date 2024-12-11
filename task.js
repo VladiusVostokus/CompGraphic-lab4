@@ -163,8 +163,8 @@ function main() {
     const aspectRatio = canvas.width / canvas.height
 
     const perspective = (fovy, aspect, near, far) => {
-        var f = Math.tan(Math.PI * 0.5 - 0.5 * fovy);
-        var rangeInv = 1.0 / (near - far);
+        const f = Math.tan(Math.PI * 0.5 - 0.5 * fovy);
+        const rangeInv = 1.0 / (near - far);
 
         return [
             f / aspect, 0, 0, 0,
@@ -175,7 +175,7 @@ function main() {
     };
 
     const translate = (matrix, translationVec) => {
-        let x = translationVec[0], y = translationVec[1], z = translationVec[2];
+        const x = translationVec[0], y = translationVec[1], z = translationVec[2];
         matrix[12] = matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12];
         matrix[13] = matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13];
         matrix[14] = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
@@ -189,14 +189,14 @@ function main() {
     };
 
     const multiply = (a, b) => {
-        var a00 = a[0 * 4 + 0], a01 = a[0 * 4 + 1], a02 = a[0 * 4 + 2], a03 = a[0 * 4 + 3];
-        var a10 = a[1 * 4 + 0], a11 = a[1 * 4 + 1], a12 = a[1 * 4 + 2], a13 = a[1 * 4 + 3];
-        var a20 = a[2 * 4 + 0], a21 = a[2 * 4 + 1], a22 = a[2 * 4 + 2], a23 = a[2 * 4 + 3];
-        var a30 = a[3 * 4 + 0], a31 = a[3 * 4 + 1], a32 = a[3 * 4 + 2], a33 = a[3 * 4 + 3];
-        var b00 = b[0 * 4 + 0], b01 = b[0 * 4 + 1], b02 = b[0 * 4 + 2], b03 = b[0 * 4 + 3];
-        var b10 = b[1 * 4 + 0], b11 = b[1 * 4 + 1], b12 = b[1 * 4 + 2], b13 = b[1 * 4 + 3];
-        var b20 = b[2 * 4 + 0], b21 = b[2 * 4 + 1], b22 = b[2 * 4 + 2], b23 = b[2 * 4 + 3];
-        var b30 = b[3 * 4 + 0], b31 = b[3 * 4 + 1], b32 = b[3 * 4 + 2], b33 = b[3 * 4 + 3];
+        const a00 = a[0 * 4 + 0], a01 = a[0 * 4 + 1], a02 = a[0 * 4 + 2], a03 = a[0 * 4 + 3];
+        const a10 = a[1 * 4 + 0], a11 = a[1 * 4 + 1], a12 = a[1 * 4 + 2], a13 = a[1 * 4 + 3];
+        const a20 = a[2 * 4 + 0], a21 = a[2 * 4 + 1], a22 = a[2 * 4 + 2], a23 = a[2 * 4 + 3];
+        const a30 = a[3 * 4 + 0], a31 = a[3 * 4 + 1], a32 = a[3 * 4 + 2], a33 = a[3 * 4 + 3];
+        const b00 = b[0 * 4 + 0], b01 = b[0 * 4 + 1], b02 = b[0 * 4 + 2], b03 = b[0 * 4 + 3];
+        const b10 = b[1 * 4 + 0], b11 = b[1 * 4 + 1], b12 = b[1 * 4 + 2], b13 = b[1 * 4 + 3];
+        const b20 = b[2 * 4 + 0], b21 = b[2 * 4 + 1], b22 = b[2 * 4 + 2], b23 = b[2 * 4 + 3];
+        const b30 = b[3 * 4 + 0], b31 = b[3 * 4 + 1], b32 = b[3 * 4 + 2], b33 = b[3 * 4 + 3];
       
         return [
           b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30,
@@ -217,8 +217,9 @@ function main() {
           b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
         ];
     };
+
     const scale = (a, v) => {
-        let x = v[0],
+        const x = v[0],
           y = v[1],
           z = v[2];
       
