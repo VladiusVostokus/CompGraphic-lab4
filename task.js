@@ -107,6 +107,7 @@ function main() {
         -.5,-.5, .5,   1,0,0,
     ]);
 
+    
     const lidBufferData = new Float32Array([
       -0.5,  0,    0,       0,1,1,
       -0.5,  0.1,  1,       0,1,1,
@@ -149,7 +150,7 @@ function main() {
        0.5,  0.1,  1,       1,0,0,
       -0.5,  0.1,  1,       1,0,0,
       -0.5,  0,    1,       1,0,0,
-  ]);
+  ]); 
   
 
 
@@ -173,19 +174,12 @@ function main() {
         ];
     };
 
-    const translate = (translationVec) => {
+    const translate = (matrix, translationVec) => {
         let x = translationVec[0], y = translationVec[1], z = translationVec[2];
-        const matrix = [
-            1,0,0,0,
-            0,1,0,0,
-            0,0,1,0,
-            0,0,0,1,
-        ]
         matrix[12] = matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12];
         matrix[13] = matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13];
         matrix[14] = matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14];
-        return matrix;
-    }
+    };
 
     const multiply = (a, b) => {
         var a00 = a[0 * 4 + 0], a01 = a[0 * 4 + 1], a02 = a[0 * 4 + 2], a03 = a[0 * 4 + 3];
@@ -216,6 +210,24 @@ function main() {
           b30 * a03 + b31 * a13 + b32 * a23 + b33 * a33,
         ];
     };
+    const scale = (a, v) => {
+        let x = v[0],
+          y = v[1],
+          z = v[2];
+      
+        a[0] *= x;
+        a[1] *= x;
+        a[2] *= x;
+        a[3] *= x;
+        a[4] *= y;
+        a[5] *= y;
+        a[6] *= y;
+        a[7] *= y;
+        a[8] *= z;
+        a[9] *= z;
+        a[10] *= z;
+        a[11] *= z;
+    };
 
     let angle = 30;
     let deltaAngle = 0;
@@ -231,7 +243,14 @@ function main() {
         const cos = Math.cos(radian);
         const sin = Math.sin(radian);
 
-        const modelViewMatrix = translate([0, -0.5, -3.5]);
+        const modelViewMatrix = [
+            1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            0,0,0,1,
+        ]
+
+        translate(modelViewMatrix, [0, -0.5, -3.5]);
         const perspectiveMatrix = perspective(fovY, aspectRatio, 0.1, 10);
 
         const projectionMatrix_Y = [
@@ -258,16 +277,16 @@ function main() {
             1,0,0,0,
             0,cos2,sin2,0,
             0,-sin2,cos2,0,
-            0,0.65,-0.2,1,
+            0,0.65, -0.2,1,
         ]);
 
-        const transformMatrix2 = multiply(projectionMatrix_Y, projectionMatrix_X2);
+        translate(projectionMatrix_X2, [0, 0, 0.5]);
         
         gl.uniformMatrix4fv(uTransormMatrix, false, transformMatrix1);
         gl.uniformMatrix4fv(uPerspectiveMatrix, false, perspectiveMatrix);
         gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
 
-        
+    
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, crateBufferData, gl.STATIC_DRAW);
 
@@ -275,13 +294,10 @@ function main() {
         gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
         gl.drawArrays(gl.TRIANGLES, 0, 36); 
 
+        const transformMatrix2 = multiply(projectionMatrix_Y, projectionMatrix_X2);
+        scale(transformMatrix2, [1, 0.1, 1]);
+
         gl.uniformMatrix4fv(uTransormMatrix, false, transformMatrix2);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, lidBufferData, gl.STATIC_DRAW);
-
-        gl.vertexAttribPointer(aPosition, 3 , gl.FLOAT, false, 6 * 4, 0);
-        gl.vertexAttribPointer(aColor, 3 , gl.FLOAT, false, 6 * 4, 3 * 4);
         gl.drawArrays(gl.TRIANGLES, 0, 36);
     };
 
